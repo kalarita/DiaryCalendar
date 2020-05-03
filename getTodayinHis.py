@@ -2,7 +2,7 @@
 @author: kalarita
 @Date: 2020-05-03 12:28:23
 @LastEditors: kalarita
-@LastEditTime: 2020-05-03 21:39:46
+@LastEditTime: 2020-05-03 22:44:08
 @note:安装hanziconv,beautifulsoup4
 '''
 
@@ -34,7 +34,7 @@ def getdata(url):
         usefulstr = re.sub(r'<ref>[\s\S]+?<ref>','',usefulstr)              #去掉里面所有的带有<ref>标签的内容,部分页面存在
         usefulstr = re.sub(r'\[来源请求\]','',usefulstr)                    #把带有[来源请求]的都给去掉
         usefulstr = re.sub(r'公元[\s\S]+?。','',usefulstr)                  #去掉公元前的内容
-        print(usefulstr)    
+        # print(usefulstr)    
     except:
         print("cannot connect to target website")
         logging.basicConfig(level=logging.DEBUG,#控制台打印的日志级别
@@ -45,6 +45,8 @@ def getdata(url):
                     '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
                     #日志格式
                     )
+        logger = logging.getLogger(__name__)
+        logger.debug("could not connect to wikipedia,please check your server")
     return usefulstr
 
 #数据处理
@@ -55,8 +57,8 @@ def managedata(data):
     rms = r'\d{1,2}[\s\S]{2}\[编辑\]'
 
     managed_data = re.sub(rms,'',managed_data)
-    print("这是去掉了小标题的数据")
-    print(managed_data)
+    # print("这是去掉了小标题的数据")
+    # print(managed_data)
     managed_data =list(set(re.split(s,managed_data))) 
     tmp = [0]*len(managed_data)
     for i in range(0,len(managed_data)):
@@ -75,23 +77,33 @@ def managedata(data):
 def format_date():
     cmonth = int(datetime.date.today().strftime('%m'))   
     cday = int(datetime.date.today().strftime('%d'))
-    datestr = str(cmonth+5) + "月" + str(cday) + "日"
-    print(datestr)
+    datestr = str(cmonth) + "月" + str(cday) + "日"
+    # print(datestr)
     return datestr
 
 
 def main():
     head_url = r'https://zh.wikipedia.org/wiki/'
     url = head_url + format_date()
-    print(url)
+    # print(url)
     data = getdata(url)
     if data != "":
         managed_data = managedata(data)
-        print(managed_data)
+        # print(managed_data)
         print("获取的数据长度为"+str(len(managed_data)))
+        logging.basicConfig(level=logging.INFO,#控制台打印的日志级别
+            filename='new.log',
+            filemode='a',##模式，有w和a，w就是写模式，每次都会重新写日志，覆盖之前的日志
+            #a是追加模式，默认如果不写的话，就是追加模式
+            format=
+            '%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'
+            #日志格式
+            )
+        logger = logging.getLogger(__name__)
+        logger.info("获取的数据长度为"+str(len(managed_data)))
         with open("today.txt","w+") as f:
             for i in range(0,len(managed_data)):
-                f.writelines(managed_data[i]+"\n")
+                f.write(managed_data[i]+"\n")
 if __name__ == "__main__":
     main()
 
