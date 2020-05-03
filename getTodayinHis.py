@@ -2,8 +2,7 @@
 @author: kalarita
 @Date: 2020-05-03 12:28:23
 @LastEditors: kalarita
-@LastEditTime: 2020-05-03 21:31:07
-@FilePath: \undefinedc:\canlendarProject\DiaryCanlendar\getTodayinHis.py
+@LastEditTime: 2020-05-03 21:39:46
 @note:安装hanziconv,beautifulsoup4
 '''
 
