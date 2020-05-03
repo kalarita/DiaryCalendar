@@ -2,8 +2,8 @@
 @author: kalarita
 @Date: 2020-05-03 12:28:23
 @LastEditors: kalarita
-@LastEditTime: 2020-05-03 21:21:10
-@FilePath: \pyspider\test.py
+@LastEditTime: 2020-05-03 21:27:53
+@FilePath: \undefinedc:\canlendarProject\DiaryCanlendar\getTodayinHis.py
 @note:安装hanziconv,beautifulsoup4
 '''
 
@@ -15,28 +15,7 @@ import re
 from bs4 import BeautifulSoup
 from hanziconv import HanziConv
 
-# head_url = r'https://zh.wikipedia.org/wiki/'
-# nowday = '5月3日'
-# encoded_day = quote(nowday)
-# url = head_url + encoded_day
-# try:
-#     r = requests.get(url)
-#     r.raise_for_status()
-#     r.encoding = r.apparent_encoding
-#     soup = BeautifulSoup(r.text,"html.parser")
-#     soup.prettify()
-#     result = soup.getText()
-#     # print(result)
-#     begin_index = result.find("大事记[编辑]")+7
-#     end_index = result.find("出生[编辑]")
-#     # print(begin_index)
-#     # print(end_index)
-#     usefulstr = HanziConv.toSimplified(result[begin_index:end_index])
-#     print(usefulstr)
-    
-# except:
-#     print("cannot connect to target website")
-
+#获取数据
 def getdata(url):
     """
     从url获取页面信息,使用bs4获取指定位置的信息,由于页面上的大事记和出生应该是固定的,
@@ -69,12 +48,11 @@ def getdata(url):
                     )
     return usefulstr
 
-
+#数据处理
 def managedata(data):
     managed_data = data.replace('\n', '').replace('\r', '').replace('\s', '').replace(' ','').strip()       #去除所有的空格以及换行符
 
     s = r'(\d{3,4}[\s\S]+?。)'#这是用来用年份进行分割的正则
-    # rms = r'[\s\S]+?\[编辑\]?'#这是将字符串中的标题给去掉的正则
     rms = r'\d{1,2}[\s\S]{2}\[编辑\]'
 
     managed_data = re.sub(rms,'',managed_data)
@@ -92,16 +70,17 @@ def managedata(data):
     tmp.pop(0)
     tmp.sort()                                                              #直接利用自带的sort进行排序,除了三位数的年份会跑到最后面之外,其他暂时没有问题
     managed_data = tmp
-    # print(managed_data)
-    # managed_data.pop(0)     #将列表头部的一个空元素移除
     return managed_data
 
+#格式化时间,获取当日url
 def format_date():
     cmonth = int(datetime.date.today().strftime('%m'))   
     cday = int(datetime.date.today().strftime('%d'))
     datestr = str(cmonth+5) + "月" + str(cday) + "日"
     print(datestr)
     return datestr
+
+
 def main():
     head_url = r'https://zh.wikipedia.org/wiki/'
     url = head_url + format_date()
