@@ -2,7 +2,7 @@
 @author: kalarita
 @Date: 2020-05-03 12:28:23
 @LastEditors: kalarita
-@LastEditTime: 2020-05-03 21:27:53
+@LastEditTime: 2020-05-03 21:31:07
 @FilePath: \undefinedc:\canlendarProject\DiaryCanlendar\getTodayinHis.py
 @note:安装hanziconv,beautifulsoup4
 '''
@@ -28,9 +28,9 @@ def getdata(url):
         r.encoding = r.apparent_encoding
         soup = BeautifulSoup(r.text,"html.parser")
         soup.prettify()
-        result = soup.getText()
-        begin_index = result.find("大事记[编辑]")+7 #获取历史上的今天开始位置
-        end_index = result.find("出生[编辑]")   #获取历史上的今天结束位置
+        result = soup.getText()                                              #这里是直接获取了soup的所有文本内容,省的用标签获取
+        begin_index = result.find("大事记[编辑]")+7                          #获取历史上的今天开始位置
+        end_index = result.find("出生[编辑]")                               #获取历史上的今天结束位置
         usefulstr = HanziConv.toSimplified(result[begin_index:end_index])   #将繁体中文简化
         usefulstr = re.sub(r'<ref>[\s\S]+?<ref>','',usefulstr)              #去掉里面所有的带有<ref>标签的内容,部分页面存在
         usefulstr = re.sub(r'\[来源请求\]','',usefulstr)                    #把带有[来源请求]的都给去掉
