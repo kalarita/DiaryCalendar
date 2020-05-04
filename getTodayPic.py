@@ -2,10 +2,12 @@
 @author: kalarita
 @Date: 2020-05-03 21:45:03
 @LastEditors: kalarita
-@LastEditTime: 2020-05-03 22:41:05
+@LastEditTime: 2020-05-04 08:18:31
 '''
-import requests
 import logging
+
+import requests
+
 
 def getPic(url):
     try:

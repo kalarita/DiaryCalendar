@@ -6,13 +6,15 @@
 @note:安装hanziconv,beautifulsoup4
 '''
 
-from urllib.parse import quote, unquote, urlencode
-import requests
 import datetime
 import logging
 import re
+from urllib.parse import quote, unquote, urlencode
+
+import requests
 from bs4 import BeautifulSoup
 from hanziconv import HanziConv
+
 
 #获取数据
 def getdata(url):
@@ -106,4 +108,3 @@ def main():
                 f.write(managed_data[i]+"\n")
 if __name__ == "__main__":
     main()
-

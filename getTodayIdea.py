@@ -4,9 +4,11 @@
 @LastEditors: kalarita
 @LastEditTime: 2020-05-03 22:59:24
 '''
-import requests
-import logging
 import json
+import logging
+
+import requests
+
 
 def getIdea(url):
     try:
