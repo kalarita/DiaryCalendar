@@ -2,7 +2,7 @@
 @author: kalarita
 @Date: 2020-05-04 08:16:11
 @LastEditors: kalarita
-@LastEditTime: 2020-05-04 21:17:42
+@LastEditTime: 2020-05-06 09:23:45
 @note:部署完成之后我才想起来服务器时间还得注意,现在只是暂时调了一下,不清楚重启之后定时任务的情况
 '''
 import json
@@ -116,7 +116,10 @@ def varify(account):
     sql = 'select pwd from usr where mail=\''+str(accountlst[0])+'\''
     print(sql)
     print(cursor.execute(sql).fetchall())
-    fetchedpwd = cursor.execute(sql).fetchall()[0][0]
+    if len(cursor.execute(sql).fetchall()[0])>0:
+        fetchedpwd = cursor.execute(sql).fetchall()[0][0]
+    else:
+        fetchedpwd = ''
     total = len(cursor.execute(sql).fetchall())
     if total>0:
         print(fetchedpwd)
